@@ -39,14 +39,14 @@ class Dosen extends CI_Controller{
         $_nidn = $this->input->post('nidn');
         $_nama = $this->input->post('nama');
         $_gender = $this->input->post('gender');
-        $_tmpt_lahir = $this->input->post('tmpt_lahir');
+        $_tmpt_lahir = $this->input->post('tmp_lahir');
         $_tgl_lahir = $this->input->post ('tgl_lahir');
         $_pendidikan = $this->input->post('pendidikan');
 
         $data_dosen['nidn'] = $_nidn; // 2
         $data_dosen['nama'] = $_nama;
         $data_dosen['gender'] = $_gender;
-        $data_dosen['tmpt_lahir'] = $_tmpt_lahir;
+        $data_dosen['tmp_lahir'] = $_tmp_lahir;
         $data_dosen['tgl_lahir'] = $_tgl_lahir;
         $data_dosen['pendidikan'] = $_pendidikan;
 
@@ -74,6 +74,32 @@ class Dosen extends CI_Controller{
         $data_dosen['id'] = $id;
         $this->dosen->delete($data_dosen);
         redirect('dosen','refresh');
+    }
+    public function upload(){
+        $_iddosen=$this->input->post("iddosen");
+        $this->load->model('dosen_model', 'dsn');
+        $dsn = $this->dsn->getById($_iddosen);
+        $data['dsn']=$dsn;
+
+        $config['upload_path'] = './uploads/photos';
+        $config['allowed_types'] = 'jpg|png' ;
+        $config['max_size'] = 2894;
+        $config['max_width'] = 2894;
+        $config['max_height'] = 2894;
+        $config['file_name'] = $dsn->id;
+
+        $this->load->library('upload',$config);
+
+        if (!$this->upload->do_upload('foto')) 
+        {
+            $data['error'] = $this->upload->display_errors();
+        } else {
+            $data['error'] = 'Mantap Sukses';
+            $data['upload_data'] = $this->upload->data();
+        }
+            $this->load->view('layouts/header');
+            $this->load->view('dosen/detail', $data);
+            $this->load->view('layouts/footer');
     }
 }
 ?>

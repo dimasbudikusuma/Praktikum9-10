@@ -27,12 +27,32 @@
                 <td><?php echo $dsn -> nidn ?> </td>
                 <td><?php echo $dsn -> nama ?></td>
                 <td><?php echo $dsn -> gender ?></td>
-                <td><?php echo $dsn -> tmpt_lahir ?></td>
+                <td><?php echo $dsn -> tmp_lahir ?></td>
                 <td><?php echo $dsn -> tgl_lahir ?></td>
                 <td><?php echo $dsn -> pendidikan ?></td>
             </tr>
         </tbody>
     </table>
+    <div class="col-md-5 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="align-items-center text-center">
+                    <img src="<?=base_url()?>uploads/photos/<?=$dsn->id?>.jpg" width="300"/>
+                    <div class="mt-4">
+                        <h4><?=$dsn->nama?></h4>
+                        <p>Foto DOSEN</p>
+                        <?php echo $error;?>
+                        <?php echo form_open_multipart('dosen/upload');?>
+                        <input type="file" name="foto" size="300"/>
+                        <input type="hidden" name="iddosen" value="<?=$dsn->id?>"/>
+                        <br/> <br/>
+                        <input type="submit" value="Upload Foto" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
     </div>
 </body>
 </html>
